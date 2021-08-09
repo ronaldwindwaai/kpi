@@ -12,5 +12,15 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
+    .script([
+        'assets/js/vendor-all.min.js',
+        'assets/js/plugins/bootstrap.min.js',
+        'assets/js/ripple.js',
+        'assets/js/pcoded.min.js',
+        'assets/js/menu-setting.min.js',
+    ],'public/js/all.js')
+    .script([
+        'assets/js/plugins/apexcharts.min.js',
+        'assets/js/pages/dashboard-main.js',
+    ],'public/js/dashboard.js')
     .sourceMaps();
