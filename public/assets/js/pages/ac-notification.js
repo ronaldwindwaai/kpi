@@ -9,7 +9,7 @@ $(window).on('load', function() {
             label: 'Cancel',
             className: 'btn-xs btn-inverse',
             placement: {
-                from: 'top',
+                from: 'bottom',
                 align: 'right'
             },
             delay: 2500,

@@ -264,7 +264,7 @@ Dashboard
             editable: true,
             droppable: true,
             events: {
-                url: "{{ route('calendar') }}",
+                url: "http://pif.test/calendars",
                 extraParams: function() {
                     return {
                         cachebuster: new Date().valueOf()
