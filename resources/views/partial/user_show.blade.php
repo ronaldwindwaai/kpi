@@ -11,49 +11,55 @@
             </div>
 
             @if (!empty($data))
-            <div class="dt-responsive table-responsive">
-                <table class="table table-striped table-bordered nowrap">
-                    <tbody>
-                        <tr>
-                            <td bgcolor="#dcd"><strong>Full Name</strong></td>
-                            <td>{{ $data->name }}</td>
-                        </tr>
-                        <tr>
-                            <td bgcolor="#dcd"><strong>Email Address</strong></td>
-                            <td>{{ $data->email }}</td>
-                        </tr>
-                        <tr>
-                            <td bgcolor="#dcd"><strong>Role</strong></td>
-                            <td>
-                                @foreach ($data->getRoleNames() as $role)
-                                    {{ $role }},
-                                @endforeach
-                            </td>
-                        </tr>
-                        <tr>
-                            <td bgcolor="#dcd"><strong>Permissions</strong></td>
-                            <td>
-                                @foreach ($data->getAllPermissions() as $permission)
-                                    {{ $permission->name }},
-                                @endforeach
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="col-md-10">
-                    <div class="form-group">
-                        <a href="{{ route($page.'.index') }}" class="btn btn-info btn"><i
+                <div class="dt-responsive table-responsive">
+                    <table class="table table-striped table-bordered nowrap">
+                        <tbody>
+                            <tr>
+                                <td bgcolor="#dcd"><strong>Full Name</strong></td>
+                                <td>{{ $data->first_name . ' ' . $data->last_name }}</td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#dcd"><strong>Email Address</strong></td>
+                                <td>{{ $data->email }}</td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#dcd"><strong>Role</strong></td>
+                                <td>
+                                    @foreach ($data->getRoleNames() as $role)
+                                        {{ $role }},
+                                    @endforeach
+                                </td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#dcd"><strong>Permissions</strong></td>
+                                <td>
+                                    @foreach ($data->getAllPermissions() as $permission)
+                                        {{ $permission->name }},
+                                    @endforeach
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            @role('super-admin')
+                            <a href="{{ route($page . '.index') }}" class="btn btn-info btn"><i
                                     class="feather icon-edit"></i>&nbsp;Back </a>
-                        <a href="{{ route($page.'.edit',$data->id) }}" class="btn btn-info btn"><i
+
+                            <a href="{{ route($page . '.edit', $data->id) }}" class="btn btn-info btn"><i
                                     class="feather icon-edit"></i>&nbsp;Edit </a>
-                        <form style="display:inline-block" id="delete-form{{ $data->id }}" action="{{ route($page.'.destroy', $data->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <a href="#" onclick="confirm('Are you sure, you want to delete this programme?')?document.getElementById('delete-form{{ $data->id }}').submit():''" class="btn btn-danger btn">
-                                <i class="feather icon-trash-2"></i>&nbsp;Delete</a>
+                            <form style="display:inline-block" id="delete-form{{ $data->id }}"
+                                action="{{ route($page . '.destroy', $data->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <a href="#"
+                                    onclick="confirm('Are you sure, you want to delete this programme?')?document.getElementById('delete-form{{ $data->id }}').submit():''"
+                                    class="btn btn-danger btn">
+                                    <i class="feather icon-trash-2"></i>&nbsp;Delete</a>
+                                @endrole
+                        </div>
                     </div>
                 </div>
-            </div>
             @endif
         </div>
     </div>

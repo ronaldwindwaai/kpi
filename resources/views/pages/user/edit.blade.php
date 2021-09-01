@@ -34,9 +34,16 @@
                     <div class="row">
                         <div class="col-md-10">
                             <div class="form-group">
-                                <label class="form-label" for="name">Name</label>
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  @error('name') aria-invalid="true" @enderror
-                                    name="name" required placeholder="Name of User" value="{{ $data->name }}">
+                                <label class="form-label" for="first-name">First Name</label>
+                                <input id="first-name" type="text" class="form-control @error('first_name') is-invalid @enderror"  @error('first_name') aria-invalid="true" @enderror
+                                    name="first_name" required placeholder="First Name of User" value="{{ $data->first_name }}">
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label class="form-label" for="last-name">Last Name</label>
+                                <input id="last-name" type="text" class="form-control @error('last_name') is-invalid @enderror"  @error('last_name') aria-invalid="true" @enderror
+                                    name="last_name" required placeholder="Last Name of User" value="{{ $data->last_name }}">
                             </div>
                         </div>
                         <div class="col-md-10">

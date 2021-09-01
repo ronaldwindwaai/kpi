@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class DepartmentController extends Controller
 {
+    private $department;
+    private $page;
+
+    public function __construct()
+    {
+        $this->department = new Department();
+        $this->page =   'department';
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,25 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'List of Departments';
+
+        /*$projects = DB::table('projects')
+            ->select('id','title', 'date_from', 'date_to', 'created_at')
+            ->get();*/
+
+        $departments = Department::all();
+
+        $departments = DB::table('departments')
+            ->join('users', 'departments.manager_id', '=', 'users.id')
+            ->select('departments.id', 'departments.name', DB::raw("CONCAT(users.first_name,' ',users.last_name) as manager"), 'departments.created_at')
+            ->get();
+
+        $columns    =   $this->department->get_columns();
+
+        return view('pages.department.index')
+            ->with('data', $departments)
+            ->with('columns', $columns)
+            ->with('title', $title);
     }
 
     /**
@@ -24,7 +53,23 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        try {
+            $title = __('admin/department/form.form_title');
+            $managers = Role::whereIn('name', ['super-admin'])
+                ->first()->users()->get();
+            $roles = Role::all();
+
+
+            return view('pages.department.add')
+                ->with('page', $this->page)
+                ->with('title', $title)
+                ->with('roles', $roles)
+                ->with('managers', $managers);
+        } catch (Exception $exception) {
+            return \redirect()
+                ->back()
+                ->withErrors($exception->getMessage());
+        }
     }
 
     /**

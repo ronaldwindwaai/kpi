@@ -3,14 +3,18 @@ return [
     'navigation' =>[
         'dashboard'     => 'Dashboard',
         'programmes'=> [
-            'title' => 'Programmes',
-            'add'   => 'Add a Programme',
+            'title' => 'Appraisal',
             'list'  => 'List All Programmes',
         ],
-        'projects'   => [
-            'title' => 'Project',
-            'add'   => 'Add a Project',
-            'list'  => 'List All Projects',
+        'department'   => [
+            'title' => 'Department',
+            'add'   => 'Add a Department',
+            'list'  => 'List All Department(s)',
+        ],
+        'work_plan'   => [
+            'title' => 'Work Plan',
+            'add'   => 'Add a Work Plan',
+            'list'  => 'List All Work Plan(s)',
         ],
         'meetings'  => [
             'title' => 'Meetings',

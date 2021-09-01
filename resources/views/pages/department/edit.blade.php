@@ -14,6 +14,7 @@
 <script src="{{ asset('assets/js/plugins/select2.full.min.js')}}"></script>
 <!-- form-select-custom Js -->
 <script src="{{ asset('assets/js/pages/form-select-custom.js')}}"></script>
+
 @include('shared.message.message-reporting')
 @endsection
 @section('content')
@@ -25,22 +26,70 @@
                 <h5>{{ $title }}</h5>
             </div>
             <div class="card-body">
-                <form id="form" action="{{ route($page.'.store') }}" method="POST"
+                <form id="form" action="{{ route($page.'.update',$data->id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @method('PATCH')
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label class="form-label" for="name">Name</label>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  @error('name') aria-invalid="true" @enderror
+                                    name="name" required placeholder="Name of the Department" value="{{ $data->name }}">
+                            </div>
+                        </div>
+                        @if (!empty($managers))
+                        <div class="col-md-10">
+                            <div class="form-group">
+                            <h5>Manager</h5>
+                            <p>Kindly assign the Manager responsible for this Department.</p>
+                                <select class="js-example-basic-multiple col-md-6" name="manager_id">
+                                    @foreach ($managers as $manager)
+                                        <option {{ ($data->manager_id == $manager->id)?'selected' :'' }} value="{{ $manager->id }}">{{ $manager->name }}</option>
+                                    @endforeach
+                                </select>
+                                @role('super-admin')
+                                   <button type="button" class="btn btn-sm  btn-outline-primary has-ripple" data-toggle="modal" data-target="#modal-new-manager">New</button>
+                                @endrole
+                            </div>
+                        </div>
+                        @endif
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label class="form-label" for="description">Description</label>
+                                <textarea class="form-control @error('title') is-invalid @enderror"  @error('description') required aria-invalid="true" @enderror name="description" id="description"
+                                    placeholder="Programme Description">{{ $data->description }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn  btn-primary">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- [ Form Validation ] end -->
+</div>
+<!-- [ Main Content ] end -->
+@role('super-admin')
+<div class="modal fade" id="modal-new-manager" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add A User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="user-modal-form" action="{{ route('users.store') }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-10">
                             <div class="form-group">
-                                <label class="form-label" for="first-name">First Name</label>
-                                <input id="first-name" type="text" class="form-control @error('first_name') is-invalid @enderror"  @error('first_name') aria-invalid="true" @enderror
-                                    name="first_name" required placeholder="First Name of User" value="{{ old('first_name') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <label class="form-label" for="last-name">Last Name</label>
-                                <input id="last-name" type="text" class="form-control @error('last_name') is-invalid @enderror"  @error('last_name') aria-invalid="true" @enderror
-                                    name="last_name" required placeholder="Last Name of User" value="{{ old('last_name') }}">
+                                <label class="form-label" for="name">Name</label>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  @error('name') aria-invalid="true" @enderror
+                                    name="name" required placeholder="Name of User" value="{{ old('name') }}">
                             </div>
                         </div>
                         <div class="col-md-10">
@@ -69,7 +118,7 @@
                             <div class="form-group">
                             <h5>Role</h5>
                             <p>Kindly choose the role of this user.</p>
-                            <select class="js-example-basic-multiple col-md-6" name="role_id">
+                            <select class="col-md-6" name="role_id">
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                                 @endforeach
@@ -79,11 +128,11 @@
                         @endif
                     </div>
                     <button type="submit" class="btn  btn-primary">Submit</button>
+                    <button type="buton" data-dismiss="modal" class="btn btn-outline-secondary has-ripple">Close</button>
                 </form>
             </div>
         </div>
     </div>
-    <!-- [ Form Validation ] end -->
 </div>
-<!-- [ Main Content ] end -->
+@endrole
 @endsection

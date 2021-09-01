@@ -3,6 +3,7 @@
 return [
     'list_of_resources' => 'List of Resources',
     'id'                => 'ID',
+    'name'              => 'Name',
     'title'             => 'Title',
     'name_of_the_meeting'  => 'Name of the meeting',
     'full_name'         => 'Full Name',

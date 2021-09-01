@@ -17,18 +17,29 @@
         </ul>
     </li>
     @endhasrole
-    @hasrole('super-admin|manager|officer')
+
     <li class="nav-item pcoded-hasmenu">
         <a href="#!" class="nav-link "><span class="pcoded-micon"><i
-                    class="feather icon-layout"></i></span><span class="pcoded-mtext">{{ __('admin/menu.navigation.projects.title') }}</span></a>
+                    class="feather icon-layout"></i></span><span class="pcoded-mtext">{{ __('admin/menu.navigation.work_plan.title') }}</span></a>
         <ul class="pcoded-submenu">
 
-            <li><a href="{{ route('projects.create') }}">{{ __('admin/menu.navigation.projects.add') }}</a></li>
-            <li><a href="{{ route('projects.index') }}">{{ __('admin/menu.navigation.projects.list') }}</a></li>
+            <li><a href="{{ route('work_plan.create') }}">{{ __('admin/menu.navigation.work_plan.add') }}</a></li>
+            <li><a href="{{ route('work_plan.index') }}">{{ __('admin/menu.navigation.work_plan.list') }}</a></li>
 
         </ul>
     </li>
-    @endhasrole
+
+    <li class="nav-item pcoded-hasmenu">
+        <a href="#!" class="nav-link "><span class="pcoded-micon"><i
+                    class="feather icon-layout"></i></span><span class="pcoded-mtext">{{ __('admin/menu.navigation.department.title') }}</span></a>
+        <ul class="pcoded-submenu">
+
+            <li><a href="{{ route('department.create') }}">{{ __('admin/menu.navigation.department.add') }}</a></li>
+            <li><a href="{{ route('department.index') }}">{{ __('admin/menu.navigation.department.list') }}</a></li>
+
+        </ul>
+    </li>
+
     <li class="nav-item pcoded-hasmenu">
         <a href="#!" class="nav-link "><span class="pcoded-micon"><i
                     class="feather icon-briefcase"></i></span><span class="pcoded-mtext">{{ __('admin/menu.navigation.meetings.title') }}</span></a>

@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserCreated;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use App\Events\NewUserCreated;
-use App\Events\UserAccountDeleted;
+
 
 class UserController extends Controller
 {
@@ -35,21 +32,18 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-
         try {
-
             $this->authorize('viewAny', User::class);
-            $users = User::with('roles')
-                ->orderBy('name', 'asc')
-                ->get();
 
             $title = 'List of Users';
+            $users = User::with('roles')->orderBy('id')->get();
 
             return view('pages.user.index')
                 ->with('data', $users)
                 ->with('page', $this->page)
                 ->with('title', $title);
         } catch (Exception $exception) {
+
             return \redirect()
                 ->back()
                 ->withErrors($exception->getMessage());
@@ -65,7 +59,7 @@ class UserController extends Controller
         try {
             $this->authorize('create', User::class);
 
-            $title = 'Add a Users';
+            $title = 'Add a User';
             $roles = Role::all();
 
             return view('pages.user.add')
@@ -91,9 +85,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-
         try {
-
             $this->authorize('create', User::class);
 
             $validated = $request->validated();
@@ -103,10 +95,8 @@ class UserController extends Controller
             $role = Role::where('id', $validated['role_id'])->get();
             $user->assignRole($role);
 
-            \event(new NewUserCreated($user));
-
             return \redirect()
-                ->back()->withStatus('The  (' . strtoupper($user->name) . ') User was successfully created..');
+                ->back()->withStatus('The  (' . strtoupper($user->first_name . ' ' . $user->last_name) . ') User was successfully created..');
         } catch (Exception $exception) {
             return \redirect()
                 ->back()
@@ -127,13 +117,14 @@ class UserController extends Controller
         try {
 
             $this->authorize('view', $user);
+            $title = $user->first_name . ' ' . $user->last_name;
 
             // $user = User::with('roles')->where('id', $user->id)->first();
             //$users = User::with('roles')->where('role_id', $user)->get();
             return view('pages.user.show',)
                 ->with('data', $user)
                 ->with('page', $this->page)
-                ->with('title', $user->name);
+                ->with('title', $title);
         } catch (Exception $exception) {
             return \redirect()->back()->with('error', $exception->getMessage());
         }
@@ -151,13 +142,14 @@ class UserController extends Controller
         try {
 
             $this->authorize('update', $user);
+            $title = $user->first_name . ' ' . $user->last_name;
 
             $roles = Role::all();
             return view('pages.user.edit')
                 ->with('data', $user)
                 ->with('roles', $roles)
                 ->with('page', $this->page)
-                ->with('title', $user->name);
+                ->with('title', $title);
         } catch (Exception $exception) {
             return \redirect()
                 ->back()
@@ -203,9 +195,6 @@ class UserController extends Controller
                 ->withErrors($exception->getMessage());
         }
     }
-
-
-
     /**
      * Remove the specified resource from storage.
      *
@@ -220,9 +209,7 @@ class UserController extends Controller
 
             $this->authorize('delete', $user);
 
-            $name = $user->name;
-
-            \event(new UserAccountDeleted($user));
+            $name = $user->first_name . ' ' . $user->last_name;
 
             $user->delete();
 

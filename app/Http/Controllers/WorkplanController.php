@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Workplan;
+use App\Models\WorkPlan;
 use Illuminate\Http\Request;
 
-class WorkplanController extends Controller
+class WorkPlanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class WorkplanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Workplan  $workplan
+     * @param  \App\Models\WorkPlan  $work_plan
      * @return \Illuminate\Http\Response
      */
-    public function show(Workplan $workplan)
+    public function show(WorkPlan $work_plan)
     {
         //
     }
@@ -52,10 +52,10 @@ class WorkplanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Workplan  $workplan
+     * @param  \App\Models\WorkPlan  $work_plan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Workplan $workplan)
+    public function edit(WorkPlan $work_plan)
     {
         //
     }
@@ -64,10 +64,10 @@ class WorkplanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Workplan  $workplan
+     * @param  \App\Models\WorkPlan  $work_plan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Workplan $workplan)
+    public function update(Request $request, WorkPlan $work_plan)
     {
         //
     }
@@ -75,10 +75,10 @@ class WorkplanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Workplan  $workplan
+     * @param  \App\Models\WorkPlan  $work_plan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Workplan $workplan)
+    public function destroy(WorkPlan $work_plan)
     {
         //
     }

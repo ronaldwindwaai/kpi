@@ -1,7 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\WorkPlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +29,8 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('work_plan', WorkPlanController::class);
+    Route::resource('department', DepartmentController::class);
     Route::resource('programmes', ProgrammeController::class);
     Route::delete('peogrammes/delete_select/', [ProgrammeController::class, 'delete_select'])->name('delete_selected');
     Route::resource('projects', ProjectController::class);

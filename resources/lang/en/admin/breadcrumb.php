@@ -2,6 +2,8 @@
 
 return [
     'dashboard'     => 'Dashboard',
+    'department'   => 'Departments',
+    'work_plan'     => 'Work Plan',
     'programmes'    => 'Programmes',
     'projects'      => 'Projects',
     'meetings'      => 'Meetings',
