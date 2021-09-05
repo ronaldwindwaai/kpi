@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Department;
 use App\Models\User;
+use App\Models\WorkPlan;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DepartmentPolicy
+class WorkPlanPolicy
 {
     use HandlesAuthorization;
 
@@ -32,12 +32,12 @@ class DepartmentPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\WorkPlan  $workPlan
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Department $department)
+    public function view(User $user, WorkPlan $work_plan)
     {
-        return $user->id === $department->id;
+        return $user->id === $work_plan->id;
     }
 
     /**
@@ -55,34 +55,34 @@ class DepartmentPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\WorkPlan  $workPlan
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Department $department)
+    public function update(User $user, WorkPlan $work_plan)
     {
-        return ($user->id !== $department->id) || ($user->hasRole(['super-admin']));
+        return ($user->id !== $work_plan->id) || ($user->hasRole(['super-admin']));
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\WorkPlan  $workPlan
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Department $department)
+    public function delete(User $user, WorkPlan $work_plan)
     {
-        return ($user->id !== $department->id) || ($user->hasRole(['super-admin']));
+        return ($user->id !== $work_plan->id) || ($user->hasRole(['super-admin']));
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\WorkPlan  $workPlan
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Department $department)
+    public function restore(User $user, WorkPlan $workPlan)
     {
         //
     }
@@ -91,10 +91,10 @@ class DepartmentPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\WorkPlan  $workPlan
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Department $department)
+    public function forceDelete(User $user, WorkPlan $workPlan)
     {
         //
     }

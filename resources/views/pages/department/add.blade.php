@@ -30,7 +30,8 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label class="form-label" for="title">{{ __('admin/programme/form.title') }}</label>
+                                    <label class="form-label"
+                                        for="title">{{ __('admin/programme/form.title') }}</label>
                                     <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
                                         @error('title') aria-invalid="true" @enderror name="title" required
                                         placeholder="{{ __('admin/programme/form.place_holder.title') }}"
@@ -114,40 +115,40 @@
                                     <label class="form-label" for="password">Password</label>
                                     <input id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" @error('password')
-                                    aria-invalid="true" @enderror name="password" required placeholder="Password"
-                                    value="{{ old('password') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <label class="form-label" for="confirm-password">Confirm Password</label>
-                                <input id="confirm-password" type="password"
-                                    class="form-control @error('confirm-password') is-invalid @enderror"
-                                    @error('confirm-password') aria-invalid="true" @enderror name="confirm-password"
-                                    required placeholder="Password" value="{{ old('confirm-password') }}">
-                            </div>
-                        </div>
-                        @if (!empty($roles))
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <h5>Role</h5>
-                                    <p>Kindly choose the role of this user.</p>
-                                    <select class="col-md-6" name="role_id">
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                        @endforeach
-                                    </select>
+                                        aria-invalid="true" @enderror name="password" required placeholder="Password"
+                                        value="{{ old('password') }}">
                                 </div>
                             </div>
-                        @endif
-                    </div>
-                    <button type="submit" class="btn  btn-primary">Submit</button>
-                    <button type="buton" data-dismiss="modal"
-                        class="btn btn-outline-secondary has-ripple">Close</button>
-                </form>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="form-label" for="confirm-password">Confirm Password</label>
+                                    <input id="confirm-password" type="password"
+                                        class="form-control @error('confirm-password') is-invalid @enderror"
+                                        @error('confirm-password') aria-invalid="true" @enderror name="confirm-password"
+                                        required placeholder="Password" value="{{ old('confirm-password') }}">
+                                </div>
+                            </div>
+                            @if (!empty($roles))
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <h5>Role</h5>
+                                        <p>Kindly choose the role of this user.</p>
+                                        <select class="col-md-6" name="role_id">
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <button type="submit" class="btn  btn-primary">Submit</button>
+                        <button type="buton" data-dismiss="modal"
+                            class="btn btn-outline-secondary has-ripple">Close</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-@endrole
+    @endrole
 @endsection

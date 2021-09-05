@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Department;
+use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DepartmentPolicy
+class RolePolicy
 {
     use HandlesAuthorization;
 
@@ -25,19 +25,19 @@ class DepartmentPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasRole(['super-admin', 'manager', 'officer']);
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Department $department)
+    public function view(User $user, Role $role)
     {
-        return $user->id === $department->id;
+        return false;
     }
 
     /**
@@ -48,41 +48,41 @@ class DepartmentPolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole(['super-admin']);
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Department $department)
+    public function update(User $user, Role $role)
     {
-        return ($user->id !== $department->id) || ($user->hasRole(['super-admin']));
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Department $department)
+    public function delete(User $user, Role $role)
     {
-        return ($user->id !== $department->id) || ($user->hasRole(['super-admin']));
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Department $department)
+    public function restore(User $user, Role $role)
     {
         //
     }
@@ -91,10 +91,10 @@ class DepartmentPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Department $department)
+    public function forceDelete(User $user, Role $role)
     {
         //
     }

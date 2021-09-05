@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Department\StoreDepartmentRequest;
+use App\Http\Requests\Department\UpdateDepartmentRequest;
 use Exception;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -25,14 +27,12 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $title = 'List of Departments';
+        $this->authorize('viewAny', Department::class);
+        $title = __('admin/department/table.table_title');
 
         /*$projects = DB::table('projects')
             ->select('id','title', 'date_from', 'date_to', 'created_at')
             ->get();*/
-
-        $departments = Department::all();
-
         $departments = DB::table('departments')
             ->join('users', 'departments.manager_id', '=', 'users.id')
             ->select('departments.id', 'departments.name', DB::raw("CONCAT(users.first_name,' ',users.last_name) as manager"), 'departments.created_at')
@@ -54,11 +54,11 @@ class DepartmentController extends Controller
     public function create()
     {
         try {
+            $this->authorize('create', Department::class);
             $title = __('admin/department/form.form_title');
             $managers = Role::whereIn('name', ['super-admin'])
                 ->first()->users()->get();
             $roles = Role::all();
-
 
             return view('pages.department.add')
                 ->with('page', $this->page)
@@ -78,7 +78,7 @@ class DepartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDepartmentRequest $request)
     {
         //
     }
@@ -91,7 +91,7 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        //
+        $this->authorize('view', $department);
     }
 
     /**
@@ -102,7 +102,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        $this->authorize('update', $department);
     }
 
     /**
@@ -112,9 +112,9 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        //
+        $this->authorize('update', $department);
     }
 
     /**
@@ -125,6 +125,6 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        $this->authorize('delete', $department);
     }
 }

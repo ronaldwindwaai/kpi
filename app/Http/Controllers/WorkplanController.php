@@ -14,7 +14,8 @@ class WorkPlanController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny', WorkPlan::class);
+        $work_plan = WorkPlan->all();
     }
 
     /**

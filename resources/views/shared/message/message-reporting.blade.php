@@ -1,7 +1,6 @@
 <!-- Notofication Js -->
-<script src="{{ asset('assets/js/plugins/bootstrap-notify.min.js')}}"></script>
-<script src="{{ asset('assets/js/pages/ac-notification.js')}}"></script>
-<script>
+<script defer src="{{ asset('assets/js/plugins/bootstrap-notify.min.js')}}"></script>
+<script defer>
 $(window).on('load', function () {
     function notify(message, type) {
         $.notify({message: message}, {
@@ -24,14 +23,12 @@ $(window).on('load', function () {
                 }
             });
     };
-
-    @if(session('status'))
+});
+@if(session('status'))
         notify('{{ session('status')}}', 'success');
     @elseif($errors->any())
         @foreach($errors->all() as $error)
             notify('{{ $error}}', 'danger');
         @endforeach
     @endif
-});
-
 </script>

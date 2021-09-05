@@ -33,7 +33,7 @@ class RoleController extends Controller
 
         try {
 
-            
+            $this->authorize('viewAny', Role::class);
             $roles = Role::with('permissions')->get();
 
             $title = 'List of roles';
@@ -59,6 +59,8 @@ class RoleController extends Controller
     public function create()
     {
         try {
+            $this->authorize('create', Role::class);
+
             $title = 'Add a Role';
 
             $permissions = Permission::all();
@@ -85,6 +87,7 @@ class RoleController extends Controller
     public function store(StoreRoleRequest $request)
     {
         try {
+            $this->authorize('create', Role::class);
 
             $validated = $request->validated();
 
@@ -110,6 +113,7 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         try {
+            $this->authorize('view', $role);
 
             // $user = User::with('roles')->where('id', $user->id)->first();
             //$users = User::with('roles')->where('role_id', $user)->get();
@@ -131,6 +135,8 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         try {
+            $this->authorize('update', $role);
+
             $permissions = Permission::all();
 
             $role_permissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
@@ -162,7 +168,7 @@ class RoleController extends Controller
     public function update(UpdateRoleRequest $request, Role $role)
     {
         try {
-
+            $this->authorize('update', $role);
             $validated = $request->validated();
             $role->update($validated);
 
@@ -188,6 +194,7 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         try {
+            $this->authorize('delete', $role);
             $name = $role->name;
             $role->delete();
 
