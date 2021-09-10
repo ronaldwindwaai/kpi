@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'success'   =>  'The  (:title) Resource was successfully :method!',
-    'error'     =>  'Error',
+    'success'   =>  'The  (:name) Department was successfully :method!',
+    'error'     =>  'Error - :error ',
 ];

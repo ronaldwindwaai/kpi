@@ -25,6 +25,7 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'name'=> 'required',
+            'manager_id' => '',
             'description' => '',
         ];
     }

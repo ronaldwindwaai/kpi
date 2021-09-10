@@ -21,11 +21,11 @@
 @section('content')
 <!-- [ Main Content ] start -->
 @include('partial.show',[
-    'title' =>  $title,
+    'name' =>  $name,
     'data'  =>  $data,
     'columns'  =>  $columns,
-    'form' => 'Programme',
-    'page' => 'programmes',
+    'form' => 'Department',
+    'page' => 'department',
 ])
 <!-- [ Main Content ] end -->
 @endsection

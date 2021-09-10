@@ -7,7 +7,7 @@ use App\Http\Requests\Department\UpdateDepartmentRequest;
 use Exception;
 use App\Models\Department;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 use Spatie\Permission\Models\Role;
 
 class DepartmentController extends Controller
@@ -25,7 +25,7 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Department $departments)
     {
         $this->authorize('viewAny', Department::class);
         $title = __('admin/department/table.table_title');
@@ -33,16 +33,10 @@ class DepartmentController extends Controller
         /*$projects = DB::table('projects')
             ->select('id','title', 'date_from', 'date_to', 'created_at')
             ->get();*/
-        $departments = DB::table('departments')
-            ->join('users', 'departments.manager_id', '=', 'users.id')
-            ->select('departments.id', 'departments.name', DB::raw("CONCAT(users.first_name,' ',users.last_name) as manager"), 'departments.created_at')
-            ->get();
-
-        $columns    =   $this->department->get_columns();
 
         return view('pages.department.index')
-            ->with('data', $departments)
-            ->with('columns', $columns)
+            ->with('data', $departments->get_all_departments())
+            ->with('columns', $departments->get_columns())
             ->with('title', $title);
     }
 
@@ -80,7 +74,30 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        //
+        try {
+
+            $validated = $request->validated();
+
+            $department = new Department($validated);
+            $department->save();
+
+            return \redirect()
+                ->route('department.index')
+                ->withStatus(__(
+                    'admin/department/message.success',
+                    [
+                        'name' => strtoupper($department->name),
+                        'method' => 'created'
+                    ]
+                ));
+        } catch (Exception $exception) {
+            return \redirect()
+                ->back()
+                ->withErrors(__(
+                    'admin/department/message.error',
+                    ['error' => $exception->getMessage()]
+                ));
+        }
     }
 
     /**
@@ -92,6 +109,28 @@ class DepartmentController extends Controller
     public function show(Department $department)
     {
         $this->authorize('view', $department);
+
+       // dd($department->get_manager());
+
+        try {
+            $title = __('admin/department/form.form_title');
+            $name = $department->name;
+            $columns    =   $this->department->get_columns();
+
+            return view('pages.department.show')
+                ->with('data', $department)
+                ->with('columns', $columns)
+                ->with('title', $title)
+                ->with('page', $this->page)
+                ->with('name', $name);
+        } catch (Exception $exception) {
+            return \redirect()
+                ->back()
+                ->withErrors(__(
+                    'admin/department/message.error',
+                    ['error' => $exception->getMessage()]
+                ));
+        }
     }
 
     /**
@@ -103,6 +142,25 @@ class DepartmentController extends Controller
     public function edit(Department $department)
     {
         $this->authorize('update', $department);
+
+        try {
+
+            $title = $department->name;
+            $managers = Role::whereIn('name', ['super-admin'])
+                ->first()->users()->get();
+            $roles = Role::all();
+
+            return view('pages.department.edit')
+                ->with('data', $department)
+                ->with('page', $this->page)
+                ->with('managers', $managers)
+                ->with('roles', $roles)
+                ->with('title', $title);
+        } catch (Exception $exception) {
+            return \redirect()
+                ->back()
+                ->withErrors($exception->getMessage());
+        }
     }
 
     /**
@@ -115,6 +173,30 @@ class DepartmentController extends Controller
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
         $this->authorize('update', $department);
+
+        try {
+
+            $validated = $request->validated();
+            $department->fill($validated);
+            $department->save();
+
+            return \redirect()
+                ->back()
+                ->withStatus(__(
+                    'admin/department/message.success',
+                    [
+                        'name' => strtoupper($department->name),
+                        'method' => 'created'
+                    ]
+                ));
+        } catch (Exception $exception) {
+            return \redirect()
+                ->back()
+                ->withErrors(__(
+                    'admin/department/message.error',
+                    ['error' => $exception->getMessage()]
+                ));
+        }
     }
 
     /**
@@ -126,5 +208,27 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
         $this->authorize('delete', $department);
+
+        try {
+            $department_name = $department->name;
+            $department->delete();
+
+            return \redirect()
+            ->route('department.index')
+            ->withStatus(__(
+                'admin/department/message.success',
+                [
+                    'name' => strtoupper($department_name),
+                    'method' => 'deleted'
+                ]
+            ));
+    } catch (Exception $exception) {
+        return \redirect()
+            ->back()
+            ->withErrors(__(
+                'admin/department/message.error',
+                ['error' => $exception->getMessage()]
+            ));
+    }
     }
 }

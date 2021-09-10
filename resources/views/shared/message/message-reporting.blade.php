@@ -1,9 +1,11 @@
 <!-- Notofication Js -->
-<script defer src="{{ asset('assets/js/plugins/bootstrap-notify.min.js')}}"></script>
-<script defer>
-$(window).on('load', function () {
-    function notify(message, type) {
-        $.notify({message: message}, {
+<script src="{{ asset('assets/js/plugins/bootstrap-notify.min.js') }}"></script>
+<script>
+    $(window).on('load', function() {
+        function notify(message, type) {
+            $.notify({
+                message: message
+            }, {
                 type: type,
                 allow_dismiss: true,
                 label: 'Cancel',
@@ -22,13 +24,13 @@ $(window).on('load', function () {
                     y: 30
                 }
             });
-    };
-});
-@if(session('status'))
-        notify('{{ session('status')}}', 'success');
-    @elseif($errors->any())
-        @foreach($errors->all() as $error)
-            notify('{{ $error}}', 'danger');
-        @endforeach
-    @endif
+        };
+        @if (session('status'))
+            notify('{{ session('status') }}', 'success');
+        @elseif($errors->any())
+            @foreach ($errors->all() as $error)
+                notify('{{ $error }}', 'danger');
+            @endforeach
+        @endif
+    });
 </script>
